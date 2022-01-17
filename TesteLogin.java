@@ -26,14 +26,31 @@ public class TesteLogin {
 		driver.get("http://localhost:4200/");
 
 		driver.findElement(By.xpath("/html/body/app-root/app-header/header/div/div[2]/a[2]")).click();
-
+		
 		// Primeiro Teste
-		driver.findElement(By.id("email")).sendKeys("henrique@email.com");
-		driver.findElement(By.id("senha")).sendKeys("senhacorreta");
+		WebElement inputEmail = driver.findElement(By.id("email"));		
+		WebElement inputSenha = driver.findElement(By.id("senha"));
+		WebElement botão = driver.findElement(By.xpath("//*[@id=\"telaLogin\"]/div/form/div[3]/button"));
 		
-		driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+		String[] listaSenhas = {"senhaincorreta", "senhaincorreta", "senhacorreta"};	
 		
-		driver.findElement(By.xpath("//*[@id=\"telaLogin\"]/div/form/div[3]/button")).click();
+		for (int tentativas = 0; tentativas < 3; tentativas++) {
+			try {
+				
+				inputEmail.clear();
+				inputSenha.clear();
+				
+				inputEmail.sendKeys("henrique@email.com");
+				inputSenha.sendKeys(listaSenhas[tentativas]);
+				botão.click();
+				
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			
+		}		
 		
 		WebElement mensagem = driver.findElement(By.xpath("/html/body/app-root/app-login/main/p"));
 		
